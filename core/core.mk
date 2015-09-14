@@ -110,6 +110,8 @@ help::
 		"  all           Run deps, app and rel targets in that order" \
 		"  app           Compile the project" \
 		"  deps          Fetch dependencies (if needed) and compile them" \
+		"  fetch-deps    Fetch dependencies (if needed) without compiling them" \
+		"  list-deps     Fetch dependencies (if needed) and list them" \
 		"  search q=...  Search for a package in the built-in index" \
 		"  rel           Build a release for this project, if applicable" \
 		"  docs          Build the documentation for this project" \
