@@ -72,12 +72,14 @@ $(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST):
 else
 LIST_DIRS = $(ALL_DEPS_DIRS)
 LIST_DEPS = $(BUILD_DEPS) $(DEPS)
+FETCH_DEPS_LOGS = $(ERLANG_MK_TMP)/fetch-deps.log
 
 $(ERLANG_MK_RECURSIVE_DEPS_LIST): fetch-deps
 
 ifneq ($(IS_DEP),1)
 $(ERLANG_MK_RECURSIVE_DOC_DEPS_LIST): LIST_DIRS += $(ALL_DOC_DEPS_DIRS)
 $(ERLANG_MK_RECURSIVE_DOC_DEPS_LIST): LIST_DEPS += $(DOC_DEPS)
+$(ERLANG_MK_RECURSIVE_DOC_DEPS_LIST): FETCH_DEPS_LOGS += $(ERLANG_MK_TMP)/fetch-doc-deps.log
 $(ERLANG_MK_RECURSIVE_DOC_DEPS_LIST): fetch-doc-deps
 else
 $(ERLANG_MK_RECURSIVE_DOC_DEPS_LIST): fetch-deps
@@ -86,6 +88,7 @@ endif
 ifneq ($(IS_DEP),1)
 $(ERLANG_MK_RECURSIVE_REL_DEPS_LIST): LIST_DIRS += $(ALL_REL_DEPS_DIRS)
 $(ERLANG_MK_RECURSIVE_REL_DEPS_LIST): LIST_DEPS += $(REL_DEPS)
+$(ERLANG_MK_RECURSIVE_REL_DEPS_LIST): FETCH_DEPS_LOGS += $(ERLANG_MK_TMP)/fetch-rel-deps.log
 $(ERLANG_MK_RECURSIVE_REL_DEPS_LIST): fetch-rel-deps
 else
 $(ERLANG_MK_RECURSIVE_REL_DEPS_LIST): fetch-deps
@@ -94,6 +97,7 @@ endif
 ifneq ($(IS_DEP),1)
 $(ERLANG_MK_RECURSIVE_TEST_DEPS_LIST): LIST_DIRS += $(ALL_TEST_DEPS_DIRS)
 $(ERLANG_MK_RECURSIVE_TEST_DEPS_LIST): LIST_DEPS += $(TEST_DEPS)
+$(ERLANG_MK_RECURSIVE_TEST_DEPS_LIST): FETCH_DEPS_LOGS += $(ERLANG_MK_TMP)/fetch-test-deps.log
 $(ERLANG_MK_RECURSIVE_TEST_DEPS_LIST): fetch-test-deps
 else
 $(ERLANG_MK_RECURSIVE_TEST_DEPS_LIST): fetch-deps
@@ -102,6 +106,7 @@ endif
 ifneq ($(IS_DEP),1)
 $(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST): LIST_DIRS += $(ALL_SHELL_DEPS_DIRS)
 $(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST): LIST_DEPS += $(SHELL_DEPS)
+$(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST): FETCH_DEPS_LOGS += $(ERLANG_MK_TMP)/fetch-shell-deps.log
 $(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST): fetch-shell-deps
 else
 $(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST): fetch-deps
@@ -112,29 +117,7 @@ $(ERLANG_MK_RECURSIVE_DOC_DEPS_LIST) \
 $(ERLANG_MK_RECURSIVE_REL_DEPS_LIST) \
 $(ERLANG_MK_RECURSIVE_TEST_DEPS_LIST) \
 $(ERLANG_MK_RECURSIVE_SHELL_DEPS_LIST):
-ifneq ($(IS_DEP),1)
-	$(verbose) rm -f $@.orig
-endif
-ifndef IS_APP
-	$(verbose) for app in $(filter-out $(CURDIR),$(ALL_APPS_DIRS)); do \
-		$(MAKE) -C "$$app" --no-print-directory $@ IS_APP=1 || :; \
-	done
-endif
-	$(verbose) for dep in $(filter-out $(CURDIR),$(LIST_DIRS)); do \
-		if grep -qs -E "^[[:blank:]]*include[[:blank:]]+(erlang\.mk|.*/erlang\.mk)$$" \
-		 $$dep/GNUmakefile $$dep/makefile $$dep/Makefile; then \
-			$(MAKE) -C "$$dep" --no-print-directory $@ IS_DEP=1; \
-		fi; \
-	done
-	$(verbose) for dep in $(LIST_DEPS); do \
-		echo $(DEPS_DIR)/$$dep; \
-	done >> $@.orig
-ifndef IS_APP
-ifneq ($(IS_DEP),1)
-	$(verbose) sort < $@.orig | uniq > $@
-	$(verbose) rm -f $@.orig
-endif
-endif
+	$(verbose) cat $(FETCH_DEPS_LOGS) | sort | uniq > $@
 endif # ifneq ($(SKIP_DEPS),)
 
 ifneq ($(SKIP_DEPS),)
@@ -165,5 +148,5 @@ endif
 endif
 
 list-deps list-doc-deps list-rel-deps list-test-deps list-shell-deps:
-	$(verbose) cat $^ | sort | uniq
+	$(verbose) cat $^
 endif # ifneq ($(SKIP_DEPS),)
