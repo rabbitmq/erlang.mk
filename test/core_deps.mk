@@ -1057,7 +1057,7 @@ dep_shelldep = git file://$(abspath $(APP)-shelldep) master\
 	$t $(MAKE) -C $(APP) --no-print-directory list-deps $v
 	$t test -d $(APP)/deps/subdep
 	$t printf "%s\n%s\n" $(abspath $(APP)/deps/dep $(APP)/deps/subdep) > $(APP)/expected-deps.txt
-	$t cmp $(APP)/expected-deps.txt $(APP)/.erlang.mk/list-deps.log
+	$t cmp $(APP)/expected-deps.txt $(APP)/.erlang.mk/recursive-deps-list.log
 	$t $(MAKE) -C $(APP) --no-print-directory distclean $v
 
 	$i "List application doc dependencies"
@@ -1067,7 +1067,7 @@ dep_shelldep = git file://$(abspath $(APP)-shelldep) master\
 	$t printf "%s\n%s\n%s\n%s\n" \
 		$(abspath $(APP)/deps/dep $(APP)/deps/subdep $(APP)/deps/docdep $(APP)/deps/docsubdep) \
 		| sort > $(APP)/expected-doc-deps.txt
-	$t cmp $(APP)/expected-doc-deps.txt $(APP)/.erlang.mk/list-doc-deps.log
+	$t cmp $(APP)/expected-doc-deps.txt $(APP)/.erlang.mk/recursive-doc-deps-list.log
 	$t $(MAKE) -C $(APP) --no-print-directory distclean $v
 
 	$i "List application rel dependencies"
@@ -1077,7 +1077,7 @@ dep_shelldep = git file://$(abspath $(APP)-shelldep) master\
 	$t printf "%s\n%s\n%s\n%s\n" \
 		$(abspath $(APP)/deps/dep $(APP)/deps/subdep $(APP)/deps/reldep $(APP)/deps/relsubdep) \
 		| sort > $(APP)/expected-rel-deps.txt
-	$t cmp $(APP)/expected-rel-deps.txt $(APP)/.erlang.mk/list-rel-deps.log
+	$t cmp $(APP)/expected-rel-deps.txt $(APP)/.erlang.mk/recursive-rel-deps-list.log
 	$t $(MAKE) -C $(APP) --no-print-directory distclean $v
 
 	$i "List application test dependencies"
@@ -1087,7 +1087,7 @@ dep_shelldep = git file://$(abspath $(APP)-shelldep) master\
 	$t printf "%s\n%s\n%s\n%s\n" \
 		$(abspath $(APP)/deps/dep $(APP)/deps/subdep $(APP)/deps/testdep $(APP)/deps/testsubdep) \
 		| sort > $(APP)/expected-test-deps.txt
-	$t cmp $(APP)/expected-test-deps.txt $(APP)/.erlang.mk/list-test-deps.log
+	$t cmp $(APP)/expected-test-deps.txt $(APP)/.erlang.mk/recursive-test-deps-list.log
 	$t $(MAKE) -C $(APP) --no-print-directory distclean $v
 
 	$i "List application shell dependencies"
@@ -1097,7 +1097,7 @@ dep_shelldep = git file://$(abspath $(APP)-shelldep) master\
 	$t printf "%s\n%s\n%s\n%s\n" \
 		$(abspath $(APP)/deps/dep $(APP)/deps/subdep $(APP)/deps/shelldep $(APP)/deps/shellsubdep) \
 		| sort > $(APP)/expected-shell-deps.txt
-	$t cmp $(APP)/expected-shell-deps.txt $(APP)/.erlang.mk/list-shell-deps.log
+	$t cmp $(APP)/expected-shell-deps.txt $(APP)/.erlang.mk/recursive-shell-deps-list.log
 	$t $(MAKE) -C $(APP) --no-print-directory distclean $v
 
 	$i "List application all dependencies (all kinds)"
@@ -1115,13 +1115,7 @@ dep_shelldep = git file://$(abspath $(APP)-shelldep) master\
 			$(APP)/deps/testdep $(APP)/deps/testsubdep \
 			$(APP)/deps/shelldep $(APP)/deps/shellsubdep) \
 		| sort > $(APP)/expected-all-deps.txt
-	$t cat \
-		$(APP)/.erlang.mk/list-deps.log \
-		$(APP)/.erlang.mk/list-doc-deps.log \
-		$(APP)/.erlang.mk/list-rel-deps.log \
-		$(APP)/.erlang.mk/list-test-deps.log \
-		$(APP)/.erlang.mk/list-shell-deps.log | sort | uniq > $(APP)/list-all-deps.txt
-	$t cmp $(APP)/expected-all-deps.txt $(APP)/list-all-deps.txt
+	$t cmp $(APP)/expected-all-deps.txt $(APP)/.erlang.mk/recursive-deps-list.log
 	$t $(MAKE) -C $(APP) --no-print-directory distclean $v
 
 core-deps-mv: build clean
