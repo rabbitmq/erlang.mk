@@ -38,6 +38,11 @@ CT_RUN = ct_run \
 	-dir $(TEST_DIR) \
 	-logdir $(CT_LOGS_DIR)
 
+ifneq ($(CT_HOOKS),)
+CT_HOOKS_PARAM_VALUE = $(patsubst %,and %,$(CT_HOOKS))
+CT_OPTS += -ct_hooks $(wordlist 2,$(words $(CT_HOOKS_PARAM_VALUE)),$(CT_HOOKS_PARAM_VALUE))
+endif
+
 ifeq ($(CT_SUITES),)
 ct: $(if $(IS_APP),,apps-ct)
 else

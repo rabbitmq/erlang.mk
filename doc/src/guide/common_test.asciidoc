@@ -18,10 +18,18 @@ This defaults to 'test/'.
 The `CT_OPTS` variable allows you to set extra Common Test
 options. Options are documented in the
 http://www.erlang.org/doc/apps/common_test/run_test_chapter.html[Common Test user guide].
-You can use it to set Common Test hooks, for example:
 
 [source,make]
-CT_OPTS = -ct_hooks cowboy_ct_hook
+CT_OPTS = -verbosity 50
+
+The `CT_HOOKS` variable allows you to enable Common Test hooks:
+
+[source,make]
+TEST_DEPS = cowboy_ct_hook
+CT_HOOKS = cth_surefire cowboy_ct_hook
+
+Note you are still responsible for declaring relevant dependencies using e.g.
+`TEST_DEPS`.
 
 The `CT_SUITES` variable can be used to override what
 Common Test suites Erlang.mk will be aware of. It does

@@ -1,6 +1,6 @@
 # Common Test plugin.
 
-CT_CASES = all apps-only case check group logs-dir opts suite tests
+CT_CASES = all apps-only case check group hooks logs-dir opts suite tests
 CT_TARGETS = $(addprefix ct-,$(CT_CASES))
 
 .PHONY: ct $(CT_TARGETS)
@@ -157,6 +157,30 @@ ct-group: build clean
 
 	$i "Check that we can run Common Test on a specific group"
 	$t $(MAKE) -C $(APP) ct-$(APP) t=okgroup $v
+
+ct-hooks: build clean
+
+	$i "Bootstrap a new OTP application named $(APP)"
+	$t mkdir $(APP)/
+	$t cp ../erlang.mk $(APP)/
+	$t $(MAKE) -C $(APP) -f erlang.mk bootstrap $v
+
+	$i "Set CT_HOOKS in the Makefile"
+	$t perl -ni.bak -e 'print;if ($$.==1) {print "CT_HOOKS = cth_surefire cth_styledout\nTEST_DEPS = cth_styledout\ndep_cth_styledout = git https://github.com/rabbitmq/cth_styledout.git master\n\n"}' $(APP)/Makefile
+
+	$i "Generate a Common Test suite"
+	$t mkdir $(APP)/test
+	$t printf "%s\n" \
+		"-module($(APP)_SUITE)." \
+		"-export([all/0, ok/1])." \
+		"all() -> [ok]." \
+		"ok(_) -> ok." > $(APP)/test/$(APP)_SUITE.erl
+
+	$i "Run Common Test"
+	$t $(MAKE) -C $(APP) ct $v
+
+	$i "Check that Common Test produced a Surefire report"
+	$t test -e $(APP)/logs/ct_run.*/junit_report.xml
 
 ct-opts: build clean
 
