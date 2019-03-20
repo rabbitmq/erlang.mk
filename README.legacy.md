@@ -2,7 +2,7 @@ Old Erlang.mk documentation
 ===========================
 
 This documentation reminds here until it gets moved to the
-official documentation on http://erlang.mk/guide/.
+official documentation on https://erlang.mk/guide/.
 
 Extending Erlang.mk
 -------------------
@@ -102,7 +102,7 @@ There are a number of optional configuration parameters:
 * `ESCRIPT_SHEBANG` for the line used by your shell to start `escript`
 * `ESCRIPT_STATIC` for non-beam directories to be included as well
 
-Refer to http://www.erlang.org/doc/man/escript.html for
+Refer to https://www.erlang.org/doc/man/escript.html for
 more information on `escript` functionality in general.
 
 Triq plugin

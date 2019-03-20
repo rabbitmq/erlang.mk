@@ -41,7 +41,7 @@ endif
 # and maybe sleep during test execution.
 #
 # Also see:
-# * http://arstechnica.com/apple/2011/07/mac-os-x-10-7/12/#hfs-problems
+# * https://arstechnica.com/apple/2011/07/mac-os-x-10-7/12/#hfs-problems
 # * https://apple.stackexchange.com/questions/51650/linus-torvalds-and-the-os-x-filesystem
 
 ifeq ($(shell touch a; sleep 0.01; touch b; sleep 0.01; touch c; test c -nt b -a b -nt a; echo $$?; rm a b c),1)

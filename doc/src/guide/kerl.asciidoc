@@ -22,7 +22,7 @@ there also was an `OTP_R16B03-1` release that fixed a
 critical issue in the initial release.
 
 The README file for all official Erlang/OTP releases can
-be found on http://www.erlang.org/downloads[erlang.org].
+be found on https://www.erlang.org/downloads[erlang.org].
 To obtain information about patch releases when they are
 released you need to be subscribed to the
 http://erlang.org/mailman/listinfo/erlang-questions[erlang-questions mailing list].

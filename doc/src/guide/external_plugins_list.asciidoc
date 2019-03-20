@@ -12,7 +12,7 @@ http://efene.org/[Efene] is an alternative language for the BEAM.
 === elixir.mk
 
 An https://github.com/botsunit/elixir.mk[Elixir plugin] for
-Erlang.mk. http://elixir-lang.org/[Elixir] is an alternative
+Erlang.mk. https://elixir-lang.org/[Elixir] is an alternative
 language for the BEAM.
 
 === elvis.mk
@@ -51,7 +51,7 @@ language for the BEAM.
 
 A https://github.com/botsunit/mix.mk[Mix plugin] for Erlang.mk,
 to generate a compatible configuration file for
-http://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html[Mix].
+https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html[Mix].
 
 === reload.mk
 

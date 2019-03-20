@@ -2,15 +2,15 @@
 == Sphinx documentation
 
 Erlang.mk includes targets for running the
-http://www.sphinx-doc.org/[Sphinx documentation generator], which can produce
+https://www.sphinx-doc.org/[Sphinx documentation generator], which can produce
 documentation in various formats, like HTML, man pages, Texinfo, LaTeX, and
 others.
 
 === Writing Sphinx documentation
 
 Sphinx generates documentation from a set of
-http://www.sphinx-doc.org/en/stable/rest.html[reST] documents. There is
-a http://www.sphinx-doc.org/en/stable/tutorial.html[quick start guide] on
+https://www.sphinx-doc.org/en/stable/rest.html[reST] documents. There is
+a https://www.sphinx-doc.org/en/stable/tutorial.html[quick start guide] on
 Sphinx' website. For Erlang.mk, we'll set up a minimal environment instead.
 
 === Basic setup
@@ -89,7 +89,7 @@ though in this case you will need to manually call `make sphinx` or add the
 The `$(SPHINX_FORMATS)` variable lists formats to generate. By default only HTML
 is generated, but it can also build man pages or LaTeX documents which can later
 be converted to PDF. See the
-http://www.sphinx-doc.org/en/stable/invocation.html#cmdoption-sphinx-build-b[description of the `-b` option]
+https://www.sphinx-doc.org/en/stable/invocation.html#cmdoption-sphinx-build-b[description of the `-b` option]
 for `sphinx-build` for a list of known formats.
 
 Formats are by default generated to a directory called after the format
@@ -112,7 +112,7 @@ man_pages = [
 ----
 
 As the
-http://www.sphinx-doc.org/en/stable/config.html#options-for-manual-page-output[Sphinx documentation]
+https://www.sphinx-doc.org/en/stable/config.html#options-for-manual-page-output[Sphinx documentation]
 indicates, the structure is:
 
 * `doc_name` is the path to the man page's source (relative `$(SPHINX_SOURCE)`),
